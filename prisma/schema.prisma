@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// *******************************
+// * Items
+// *******************************
+model item {
+  id         String    @id
+  name       String    @unique
+  createdAt  DateTime  @default(now())
+  price      Int
+  img_url    String
+  typeItem   type_item @relation(fields: [typeItemId], references: [id])
+  typeItemId String
+}
+
+model type_item {
+  id   String @id
+  name String @unique
+  item item[]
+}
