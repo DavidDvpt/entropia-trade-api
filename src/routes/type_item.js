@@ -1,5 +1,11 @@
+const { v4: uuidv4 } = require('uuid');
+
 const express = require('express');
-const { prisma } = require('.prisma/client');
+
+const prisma = require('../prismaClient');
+// const { PrismaClient } = require('@prisma/client');
+
+// const prisma = new PrismaClient();
 
 const router = express.Router();
 
@@ -31,7 +37,8 @@ router.post('/', async (req, res, next) => {
   try {
     const { name } = req.body;
     const result = await prisma.type_item.create({
-      date: {
+      data: {
+        id: uuidv4(),
         name,
       },
     });
@@ -44,16 +51,16 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name } = res.body;
+    const { name } = req.body;
     const result = await prisma.type_item.update({
       where: {
-        id: parseInt(id, 10),
+        id,
       },
-      date: {
+      data: {
         name,
       },
     });
-    res.status(20).json(result);
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -64,10 +71,10 @@ router.delete('/:id', async (req, res, next) => {
     const { id } = req.params;
     const result = await prisma.type_item.delete({
       where: {
-        id: parseInt(id, 10),
+        id,
       },
     });
-    res.status(20).json(result);
+    res.status(204).json(result);
   } catch (error) {
     next(error);
   }
