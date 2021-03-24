@@ -9,10 +9,10 @@
     "dev": "nodemon src/index.js",
     "lint": "./node_modules/.bin/eslint --fix src",
     "test": "mocha --exit",
-    "migrate:dev": "npx prisma migrate dev --preview-feature",
+    "migrate:dev": "npx prisma migrate dev",
     "generate": "npx prisma generate",
-    "seed": "npx prisma migrate reset --preview-feature && node ./prisma/seed.js",
-    "dropdb": "npx prisma migrate reset --preview-feature"
+    "seed": "npx prisma migrate reset && node ./prisma/seed.js",
+    "dropdb": "npx prisma migrate reset"
   },
   "keywords": [],
   "author": "",
