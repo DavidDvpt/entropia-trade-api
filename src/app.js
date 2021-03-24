@@ -1,10 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const cors = require('cors');
+// const cors = require('cors');
+const expressJSDocSwagger = require('express-jsdoc-swagger');
 
-require('dotenv').config();
-
+const swaggerOptions = require('./swaggerOptions');
 const middlewares = require('./middlewares');
 
 // routes
@@ -13,7 +14,7 @@ const routes = require('./routes');
 const app = express();
 
 // création du fichier de documentation
-// expressJSDocSwagger(app)(swaggerOptions);
+expressJSDocSwagger(app)(swaggerOptions);
 
 app.use(morgan('dev'));
 app.use(helmet());
@@ -24,7 +25,7 @@ app.use(helmet());
 // );
 app.use(express.json());
 
-app.use('/', routes);
+app.use('/api/v1', routes);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

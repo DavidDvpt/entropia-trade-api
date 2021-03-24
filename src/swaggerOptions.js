@@ -4,9 +4,9 @@
 const options = {
   info: {
     version: '1.0.0',
-    title: 'Tree6Clope Developer API documentation',
+    title: 'EntropiaMarket Developer API documentation',
     description:
-      'Welcome to the Tree6clope API documentation for the Tree6clope database',
+      'Welcome to the EntropiaMarket API documentation for the EntropiaMarket database',
     license: {
       name: 'MIT',
     },
@@ -21,8 +21,8 @@ const options = {
   swaggerUIPath: '/api-docs', // SwaggerUI will be render in this url. Default: '/api-docs'
   baseDir: __dirname,
   exposeSwaggerUI: true, // Expose OpenAPI UI. Default true
-  exposeApiDocs: false, // Expose Open API JSON Docs documentation in `apiDocsPath` path. Default false.
-  apiDocsPath: '/v3/api-docs', // Open API JSON Docs endpoint. Default value '/v3/api-docs'.
+  // exposeApiDocs: false, // Expose Open API JSON Docs documentation in `apiDocsPath` path. Default false.
+  // apiDocsPath: '/v3/api-docs', // Open API JSON Docs endpoint. Default value '/v3/api-docs'.
 };
 
 module.exports = options;
