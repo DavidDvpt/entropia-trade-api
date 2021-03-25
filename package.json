@@ -8,7 +8,7 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "lint": "./node_modules/.bin/eslint --fix src",
-    "test": "mocha --exit",
+    "test": "jest",
     "migrate:dev": "npx prisma migrate dev",
     "generate": "npx prisma generate",
     "seed": "npx prisma migrate reset && node ./prisma/seed.js",
