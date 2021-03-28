@@ -3,30 +3,32 @@ const { v4: uuidv4 } = require('uuid');
 const express = require('express');
 
 const prisma = require('../prismaClient');
-const typeItemValidation = require('../validations/typeItemValidation');
+const itemValidation = require('../validations/itemValidation');
 
 const router = express.Router();
-
 /**
- * A type_item
- * @typedef {object} Type_item
+ * An item
+ * @typedef {object} Item
  * @property {string} name.required - The name
+ * @property {number} value.required - The value
  * @property {boolean} isActive - Actived type or not
  * @property {string} createdAt - Creation date
+ * @property {string} updateddAt - Modification date
+ * @property {string} typeItemId - id du type_item
  */
 
 /**
  * GET /api/v1/type_item
- * @summary this route get all type_items
- * @tags type_item
- * @return {array<Type_item>} 200 - success response - application/json
+ * @summary this route get all items
+ * @tags item
+ * @return {array<Item>} 200 - success response - application/json
  * @return {object} 404 - not found response
  * @example response - 200 - success response example
  * []
  */
 router.get('/', async (req, res, next) => {
   try {
-    const results = await prisma.type_item.findMany();
+    const results = await prisma.item.findMany();
     res.status(200).json(results);
   } catch (error) {
     next(error);
@@ -34,16 +36,16 @@ router.get('/', async (req, res, next) => {
 });
 
 /**
- * GET /api/v1/type_item/{id}
- * @summary this route get all type_items
- * @tags type_item
+ * GET /api/v1/item/{id}
+ * @summary this route get only one item
+ * @tags item
  * @param {string} id.path.required
  * @return {object} 200 - success response - the selected type_item
  */
 router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await prisma.type_item.findUnique({
+    const results = await prisma.item.findUnique({
       where: {
         id,
       },
@@ -58,20 +60,24 @@ router.get('/:id', async (req, res, next) => {
  * POST /api/v1/type_item
  * @summary this route add a type_item
  * @tags type_item
- * @param {Type_item} request.body.required - type_item to add
- * @param {boolean} isActive type active or not (default true)
- * @param {string} updatedAt updated date
- * @param {boolean} isActive type active or not (default true)
+ * @param {Item} request.body.required - type_item to add
  * @return {object} 201 - success response - Added type_item
  */
-router.post('/', typeItemValidation, async (req, res, next) => {
+router.post('/', itemValidation, async (req, res, next) => {
   try {
-    const { name, isActive } = req.body;
-    const result = await prisma.type_item.create({
+    const { name, isActive, imgUrl, typeItemId, price } = req.body;
+    const result = await prisma.item.create({
       data: {
         id: uuidv4(),
         name,
         isActive,
+        price: price * 10000,
+        img_url: imgUrl,
+        typeItem: {
+          connect: {
+            id: typeItemId,
+          },
+        },
       },
     });
     res.status(201).json(result);
@@ -81,18 +87,17 @@ router.post('/', typeItemValidation, async (req, res, next) => {
 });
 
 /**
- *  * PUT /api/v1/type_item/{id}
- * @summary this route update a type_item
- * @tags type_item
- * @param {string} id.path.required
- * @param {Type_item} request.body.required - type_item to update
- * @return {object} 200 - success response - Updated type_item
+ * PUT /api/v1/item
+ * @summary this route update an item
+ * @tags item
+ * @param {Item} request.body.required - item to add
+ * @return {object} 201 - success response - Added type_item
  */
-router.put('/:id', typeItemValidation, async (req, res, next) => {
+router.put('/:id', itemValidation, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name, isActive, updatedAt } = req.body;
-    const result = await prisma.type_item.update({
+    const { name, isActive, updatedAt, imgUrl, typeItemId, price } = req.body;
+    const result = await prisma.item.update({
       where: {
         id,
       },
@@ -100,6 +105,13 @@ router.put('/:id', typeItemValidation, async (req, res, next) => {
         name,
         isActive,
         updatedAt,
+        price: price * 10000,
+        img_url: imgUrl,
+        typeItem: {
+          connect: {
+            id: typeItemId,
+          },
+        },
       },
     });
     res.status(200).json(result);
@@ -109,16 +121,16 @@ router.put('/:id', typeItemValidation, async (req, res, next) => {
 });
 
 /**
- * DELETE /api/v1/type_item/{id}
+ * DELETE /api/v1/item/{id}
  * @summary this route delete a type_item
- * @tags type_item
+ * @tags item
  * @param {string} id.path.required
  * @return {} 200 - success response
  */
 router.delete('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await prisma.type_item.delete({
+    const result = await prisma.item.delete({
       where: {
         id,
       },

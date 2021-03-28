@@ -5,6 +5,7 @@ const typeItemValidation = (req, res, next) => {
   const schema = Joi.object({
     name: Joi.string().max(50).required(),
     isActive: Joi.boolean(),
+    updatedAt: Joi.date(),
   });
 
   return process(req, res, next, schema);

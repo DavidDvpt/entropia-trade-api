@@ -34,7 +34,7 @@ function errorHandler(err, req, res, next) {
   const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
   res.status(statusCode);
   // eslint-disable-next-line no-console
-  console.log(err);
+  // console.log(err);
   res.send({
     message: err.message,
     /* details: err.meta.details, */

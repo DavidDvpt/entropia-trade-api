@@ -19,16 +19,17 @@ model item {
   price      Int
   img_url    String
   createdAt  DateTime  @default(now())
-  modifiedAt DateTime?
+  updatedAt  DateTime?
   isActive   Boolean   @default(true)
   typeItem   type_item @relation(fields: [typeItemId], references: [id])
   typeItemId String
 }
 
 model type_item {
-  id        String   @id
-  name      String   @unique
-  createdAt DateTime @default(now())
-  isActive  Boolean  @default(true)
+  id        String    @id
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  isActive  Boolean   @default(true)
   item      item[]
 }
