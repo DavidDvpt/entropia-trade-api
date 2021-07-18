@@ -33,3 +33,10 @@ model type_item {
   isActive  Boolean   @default(true)
   item      item[]
 }
+
+model stock {
+  id      String @id
+  stock   Int?
+  on_sale Int?
+  sold    Int?
+}
